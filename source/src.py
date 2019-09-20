@@ -1,9 +1,11 @@
 from selenium import webdriver
 
 from config import Config
-from source.excpetion import InvalidBrowserException
+from source.excpetion import InvalidBrowser
+from source.utils import cache
 
 
+@cache
 def driver():
     if Config.BROWSER == 'chrome':
         driver_object = webdriver.Chrome(Config.CHROME_DRIVER_LOCATION)
@@ -14,6 +16,6 @@ def driver():
     elif Config.BROWSER == 'edge':
         driver_object = webdriver.Edge(Config.EDGE_DRIVER_LOCATION)
     else:
-        raise InvalidBrowserException(f'{Config.BROWSER} is not a valid browser. Please provide a valid '
+        raise InvalidBrowser(f'{Config.BROWSER} is not a valid browser. Please provide a valid '
                                       f'browser name')
     return driver_object

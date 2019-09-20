@@ -23,7 +23,6 @@ class Element:
 
 
 class ObjectMap(object):
-
     def __init__(self, driver):
         if not isinstance(driver, WebDriver):
             raise TypeError(f'driver of type: {type(driver)} is not an instance of class WebDriver')

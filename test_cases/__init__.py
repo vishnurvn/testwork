@@ -1,5 +1,8 @@
 import re
 
+from source.excpetion import TestCaseFailed
+from source.src import driver
+
 STEP_REGEX = r'step_\d+'
 
 
@@ -17,5 +20,9 @@ class TestCase:
             try:
                 print(f"Executing step {name}")
                 step()
+            except AssertionError as e:
+                raise TestCaseFailed(f"Assertion failed. Test case failed at {name}, exception: {e}")
             except Exception as e:
-                print(f"Failed at step: {name}, Exception: {type(e)}, {e}")
+                driver().quit()
+                raise TestCaseFailed(f"Failed at step: {name}, Exception: {type(e)}, {e}")
+        driver().quit()

@@ -1,3 +1,8 @@
-class InvalidBrowserException(Exception):
+class InvalidBrowser(Exception):
     def __init__(self, message):
-        super(InvalidBrowserException, self).__init__(message)
+        super(InvalidBrowser, self).__init__(message)
+
+
+class TestCaseFailed(Exception):
+    def __init__(self, message):
+        super(TestCaseFailed, self).__init__(message)
