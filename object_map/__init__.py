@@ -44,8 +44,11 @@ class GetElement:
         self.selector_type = selector_type
         self.selector = selector
 
-    def get(self):
+    def get_element(self):
         return self.driver.find_element(self.selector_type, self.selector)
+
+    def get_element_list(self):
+        return self.driver.find_elements(self.selector_type, self.selector)
 
     def wait(self):
         return Wait(self.driver, self.selector_type, self.selector)

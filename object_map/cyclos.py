@@ -15,8 +15,8 @@ class LoginPage(ObjectMap):
     @staticmethod
     def sign_in(driver):
         LoginPage(driver).USERNAME_FIELD.wait().element_to_be_clickable.send_keys('demo.user')
-        LoginPage(driver).PASSWORD_FIELD.get().send_keys('demo123')
-        LoginPage(driver).LOGIN_BUTTON.get().click()
+        LoginPage(driver).PASSWORD_FIELD.get_element().send_keys('demo123')
+        LoginPage(driver).LOGIN_BUTTON.get_element().click()
 
 
 class HomePageLoggedIn(ObjectMap):

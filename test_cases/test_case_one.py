@@ -15,8 +15,8 @@ class TestCaseOne(TestCase):
 
     def step_3(self):
         cyclos.HomePageLoggedIn(driver).ACCOUNT_INTO_BUTTON.wait().element_to_be_clickable.click()
-        text = cyclos.HomePageLoggedIn(driver).BALANCE_TEXT.wait()
-        assert text == 'Balance: 761,66 IU'
+        text = cyclos.HomePageLoggedIn(driver).BALANCE_TEXT.wait().visibility_of_element_located.text
+        assert text == "Balance: 761,66 IU's"
 
 
 TestCaseOne().execute()

@@ -21,8 +21,7 @@ class TestCase:
                 print(f"Executing step {name}")
                 step()
             except AssertionError as e:
-                raise TestCaseFailed(f"Assertion failed. Test case failed at {name}, exception: {e}")
+                raise TestCaseFailed(f"Assertion failed. Test case failed at {name}, exception: {e}", driver)
             except Exception as e:
-                driver().quit()
-                raise TestCaseFailed(f"Failed at step: {name}, Exception: {type(e)}, {e}")
+                raise TestCaseFailed(f"Failed at step: {name}, Exception: {type(e)}, {e}", driver)
         driver().quit()

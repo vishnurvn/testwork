@@ -4,5 +4,6 @@ class InvalidBrowser(Exception):
 
 
 class TestCaseFailed(Exception):
-    def __init__(self, message):
+    def __init__(self, message, driver):
         super(TestCaseFailed, self).__init__(message)
+        driver().quit()
