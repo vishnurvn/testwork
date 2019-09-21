@@ -12,11 +12,10 @@ class LoginPage(ObjectMap):
     PASSWORD_FIELD = Element("password", "NAME")
     LOGIN_BUTTON = Element("//div[contains(text(), 'Sign in') and @class='actionButtonText']", "XPATH")
 
-    @staticmethod
-    def sign_in(driver):
-        LoginPage(driver).USERNAME_FIELD.wait().element_to_be_clickable.send_keys('demo.user')
-        LoginPage(driver).PASSWORD_FIELD.get_element().send_keys('demo123')
-        LoginPage(driver).LOGIN_BUTTON.get_element().click()
+    def sign_in(self, username, password):
+        self.USERNAME_FIELD.wait().element_to_be_clickable.send_keys(username)
+        self.PASSWORD_FIELD.get_element().send_keys(password)
+        self.LOGIN_BUTTON.get_element().click()
 
 
 class HomePageLoggedIn(ObjectMap):

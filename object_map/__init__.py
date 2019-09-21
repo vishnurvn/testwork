@@ -1,7 +1,8 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
+
+from source.web_src import driver
 
 
 class Element:
@@ -23,24 +24,22 @@ class Element:
 
 
 class ObjectMap(object):
-    def __init__(self, driver):
-        if not isinstance(driver, WebDriver):
-            raise TypeError(f'driver of type: {type(driver)} is not an instance of class WebDriver')
-        self.driver = driver
+    def __init__(self):
+        self.driver = driver()
 
     def __getattribute__(self, item: str):
         if not item.isupper():
             return object.__getattribute__(self, item)
 
         attribute = object.__getattribute__(self, item)
-        driver = object.__getattribute__(self, 'driver')
+        driver_instance = object.__getattribute__(self, 'driver')
         selector_type = getattr(By, attribute.selector_type)
-        return GetElement(driver, selector_type, attribute.selector)
+        return GetElement(driver_instance, selector_type, attribute.selector)
 
 
 class GetElement:
-    def __init__(self, driver, selector_type, selector):
-        self.driver = driver
+    def __init__(self, driver_instance, selector_type, selector):
+        self.driver = driver_instance
         self.selector_type = selector_type
         self.selector = selector
 
@@ -55,8 +54,8 @@ class GetElement:
 
 
 class Wait:
-    def __init__(self, driver, selector_type, selector):
-        self.driver = driver
+    def __init__(self, driver_instance, selector_type, selector):
+        self.driver = driver_instance
         self.selector_type = selector_type
         self.selector = selector
 
