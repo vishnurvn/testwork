@@ -1,3 +1,8 @@
+"""
+Module for web driver related functions.
+
+"""
+
 from selenium import webdriver
 
 from config import Config
@@ -8,6 +13,17 @@ from source.utils import cache
 
 @cache
 def driver():
+    """
+    Function for launching the browser according to the config specified in the config.py file.
+    Supports drivers of chrome, internet explorer, firefox and edge. Throws InvalidBrowser exception if an invalid
+    browser is specified in the config file.
+
+    Returns
+    -------
+    driver: webdriver
+        Returns a webdriver object according to the configurations in the config file.
+
+    """
     if Config.BROWSER == 'chrome':
         driver_object = webdriver.Chrome(SysConfig.CHROME_DRIVER_LOCATION)
     elif Config.BROWSER == 'ie':

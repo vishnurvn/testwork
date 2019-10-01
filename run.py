@@ -19,7 +19,7 @@ for file in os.listdir(os.path.join(os.path.dirname(__file__), 'test_cases/web')
             module = importlib.import_module('.{}'.format(module_name), 'test_cases.web')
             test_case_class = [cls for cls in dir(module) if re.match(TEST_CLASS_REGEX, cls) is not None][0]
             for run in test_data.runs():
-                getattr(module, test_case_class)().execute_batch(test_data, run)
+                getattr(module, test_case_class)().execute(test_data, run)
                 print('Test case successfully ran')
     except FileNotFoundError:
         print('Test data for the test case does not exist')

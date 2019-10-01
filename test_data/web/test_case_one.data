@@ -1,8 +1,4 @@
 [run_1]
 url = https://demo.cyclos.org/
-data_one = hello
-
-[run_2]
-url = https://demo.cyclos.org/
 username = demo.user
 password = demo123
