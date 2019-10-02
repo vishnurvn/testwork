@@ -1,0 +1,52 @@
+.master {
+  padding-top: 10px;
+  background-color: #f8f9fa;
+}
+
+.full-width {
+  width: 100%;
+}
+
+#report-header {
+  text-align: center;
+  padding: 15px;
+  font-size: 3.5em;
+}
+
+.timestamp .time, .timestamp .date {
+  text-align: center;
+}
+
+.grid-container {
+  display: inline-grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  width: 100%;
+}
+.grid-container .btn {
+  border-radius: 0px !important;
+}
+
+#case-details .each-detail {
+  border: 1px solid green;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: white;
+  margin: 10px 0px;
+}
+#case-details .header {
+  background-color: #17a2b8;
+  border-radius: 5px;
+}
+#case-details .header h5 {
+  color: white;
+  padding: 8px;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0px;
+}
+#case-details .header-details .card-title {
+  padding: 10px;
+  margin: 0px;
+}
+
+/*# sourceMappingURL=master_style.css.map */
