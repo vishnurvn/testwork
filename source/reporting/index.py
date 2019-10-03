@@ -1,11 +1,11 @@
 import calendar
 import hashlib
+import os
 from datetime import datetime
 
 from jinja2 import Environment, FileSystemLoader
 
-templates = r'C:\Users\Vishnu\Documents\auto_framework\source\reporting\templates'
-file_loader = FileSystemLoader(templates)
+file_loader = FileSystemLoader('templates')
 env = Environment(loader=file_loader)
 
 template = env.get_template('index.html')
@@ -52,13 +52,16 @@ date_ = f"{calendar.month_name[date.date().month]}  {date.date().day}, {date.dat
 time = date.time()
 time_ = f"{time.hour}:{time.minute}:{time.second}"
 
-with open(r'C:\Users\Vishnu\Documents\auto_framework\reports\css\master_style.css') as file:
+current_dir = os.path.dirname(__file__)
+master_css = os.path.join(current_dir, 'static\\scss\\master_style.css')
+with open(master_css) as file:
     css_contents = file.read()
 
 output = template.render(content='Hello there', status=status, date=date_, time=time_, test_case_data=test_case_data,
                          css=css_contents)
 
-filename = r'C:\Users\Vishnu\Documents\auto_framework\reports\index.html'
+report_folder = os.path.dirname(os.path.dirname(current_dir))
+report_file = os.path.join(report_folder, 'reports\\index.html')
 
-with open(filename, 'w') as file:
+with open(report_file, 'w') as file:
     file.write(output)

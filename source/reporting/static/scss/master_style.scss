@@ -32,6 +32,15 @@ $info-color: #17a2b8;
   }
 }
 
+.flex-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-item {
+  width: 100%;
+}
+
 #case-details {
   .each-detail {
     border: 1px solid green;
@@ -59,5 +68,19 @@ $info-color: #17a2b8;
       padding: 10px;
       margin: 0px;
     }
+  }
+}
+
+.test-step {
+  border: 1px solid green;
+  background-color: white;
+  margin: 10px 0px;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+
+  .step-desc {
+    width: 65%;
   }
 }

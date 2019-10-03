@@ -4,8 +4,9 @@ import re
 from configparser import ConfigParser
 
 from source.excpetion import TestCaseFailed
+from source.system_config import Config
 
-STEP_REGEX = r'step_\d+'
+Config.STEP_REGEX = r'step_\d+'
 
 
 class TestCase:
@@ -19,7 +20,7 @@ class TestCase:
         """
         Function for getting the list of steps for that test case. Gets the list of methods from self, matches
         it to a regular expression, appends the matches to a list and returns the sorted array. Only methods matching
-        STEP_REGEX pattern are selected.
+        Config.STEP_REGEX pattern are selected.
 
         Returns
         -------
@@ -29,7 +30,7 @@ class TestCase:
         """
         steps = []
         for name in dir(self):
-            if re.match(STEP_REGEX, name):
+            if re.match(Config.STEP_REGEX, name):
                 steps.append([name, getattr(self, name)])
         return sorted(steps)
 
@@ -57,6 +58,8 @@ class TestCase:
             try:
                 kwargs = dict([(arg, test_data.get_data(run, arg)) for arg in arguments])
                 step(**kwargs)
+                details = inspect.getdoc(step)
+                print(re.search(Config.DESCRIPTION_REGEX, details, re.MULTILINE).group('content'))
             except KeyError:
                 print("Test case failed")
                 print(f"Skipping run: {run}, arguments not found in the test data: {[arg for arg in arguments]}")
