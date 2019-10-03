@@ -2,8 +2,10 @@ import inspect
 import os
 import re
 from configparser import ConfigParser
+from datetime import datetime
 
 from source.excpetion import TestCaseFailed
+from source.reporting.report import Report
 from source.system_config import Config
 
 Config.STEP_REGEX = r'step_\d+'
@@ -16,7 +18,7 @@ class TestCase:
     for executing that test case.
     """
 
-    def _steps(self):
+    def _steps(self) -> list:
         """
         Function for getting the list of steps for that test case. Gets the list of methods from self, matches
         it to a regular expression, appends the matches to a list and returns the sorted array. Only methods matching
@@ -50,24 +52,49 @@ class TestCase:
         None
 
         """
+        report = Report()
         parent_dir = os.path.dirname(os.path.dirname(__file__))
         test_data_path = os.path.join(parent_dir, 'test_data\\web\\{}.data'.format(self.__name__))
         test_data = TestData(test_data_path)
-        for name, step in self._steps():
-            arguments = inspect.signature(step).parameters
-            try:
-                kwargs = dict([(arg, test_data.get_data(run, arg)) for arg in arguments])
-                step(**kwargs)
+
+        report.data['name'] = self.__name__
+        report.data['num_steps'] = len(list(self._steps()))
+        report.data['description'] = self.__description__
+        report.data['steps'] = []
+
+        exec_start_time = datetime.now()
+        name, arguments, step_data = None, None, None
+        try:
+            for name, step in self._steps():
                 details = inspect.getdoc(step)
-                print(re.search(Config.DESCRIPTION_REGEX, details, re.MULTILINE).group('content'))
-            except KeyError:
-                print("Test case failed")
-                print(f"Skipping run: {run}, arguments not found in the test data: {[arg for arg in arguments]}")
-                break
-            except AssertionError as e:
-                raise TestCaseFailed(f"Assertion failed. Test case failed at {name}, exception: {e}")
-            except Exception as e:
-                raise TestCaseFailed(f"Failed at step: {name}, Exception: {type(e)}, {e}")
+                arguments = inspect.signature(step).parameters
+                kwargs = dict([(arg, test_data.get_data(run, arg)) for arg in arguments])
+                step_data = {
+                    'step_desc': re.search(Config.DESCRIPTION_REGEX, details,
+                                           re.MULTILINE).group('content').format(**kwargs),
+                    'expected_results': re.search(Config.EXPECTED_REGEX, details,
+                                                  re.MULTILINE).group('content').format(**kwargs)
+                }
+                print(step_data)
+                step_exec_time = datetime.now().time().strftime('%H:%M:%S')
+                step(**kwargs)
+                step_data['step_status'] = 1
+                report.data['steps'].append(step_data)
+        except KeyError:
+            step_data['step_status'] = 0
+            raise TestCaseFailed(f"Skipping run: {run}, arguments not found in the test data: "
+                                 f"{[arg for arg in arguments]}")
+        except AssertionError as e:
+            step_data['step_status'] = 0
+            raise TestCaseFailed(f"Assertion failed. Test case failed at {name}, exception: {e}")
+        except Exception as e:
+            step_data['step_status'] = 0
+            raise TestCaseFailed(f"Failed at step: {name}, Exception: {type(e)}, {e}")
+        finally:
+            report.data['steps'].append(step_data)
+            time_taken = (datetime.now() - exec_start_time).seconds
+            report.data['execution_time'] = time_taken
+            report.generate(self.__name__)
 
 
 class TestData:

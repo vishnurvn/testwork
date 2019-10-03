@@ -2,8 +2,8 @@
 {% block content %}
 <div>
     <h3><span><strong>Test case name: </strong>{{ details.name }}</span></h3>
-    <h5><span><strong>Nummber of steps: </strong>{{ details.num_steps }}</span></h5>
-    <h5><span><strong>Execution time: </strong>{{ details.execution_time }}</span></h5>
+    <h5><span><strong>Number of steps: </strong>{{ details.num_steps }}</span></h5>
+    <h5><span><strong>Execution time: </strong>{{ details.execution_time }} seconds</span></h5>
 </div>
 <div class="flex-container">
     {% for step in details.steps %}
@@ -11,11 +11,11 @@
         <div class="step-desc">
             <p><strong>Step Description: </strong>{{ step.step_desc }}</p>
             <p><strong>Expected Results: </strong>{{ step.expected_results }}</p>
-            <p><strong>Actual Results: </strong>{{ step.actual_results }}</p>
+            <!--            <p><strong>Actual Results: </strong>{{ step.actual_results }}</p>-->
             {% if step.step_status == 1 %}
-            <p>Step Status: <span class="badge badge-success">Passed</span></p>
+            <p><strong>Step Status: </strong><span class="badge badge-success">Passed</span></p>
             {% else %}
-            <p>Step Status: <span class="badge badge-danger">Failed</span></p>
+            <p><strong>Step Status: </strong><span class="badge badge-danger">Failed</span></p>
             {% endif %}
         </div>
         <div class="image-class">

@@ -16,6 +16,7 @@ class Config:
     FIREFOX_DRIVER_LOCATION = os.path.join(current_file_path, 'drivers\\geckodriver.exe')
     EDGE_DRIVER_LOCATION = r'some location'
     TEST_CASE_FOLDER = os.path.join(current_file_path, 'test_cases')
+    REPORT_FOLDER = os.path.join(current_file_path, 'reports')
 
     WEB_DRIVER_WAIT_TIME = 60
     POLL_TIME = 1

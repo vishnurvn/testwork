@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Execution Report</title>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+    <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" rel="stylesheet">
+    <style>
+        .master {
+            padding-top: 10px;
+            background-color: #f8f9fa;
+        }
+
+        .full-width {
+            width: 100%;
+        }
+
+        #report-header {
+            text-align: center;
+            padding: 15px;
+            font-size: 3.5em;
+        }
+
+        .timestamp .time, .timestamp .date {
+            text-align: center;
+        }
+
+        .grid-container {
+            display: inline-grid;
+            grid-template-columns: 25% 25% 25% 25%;
+            width: 100%;
+        }
+
+        .grid-container .btn {
+            border-radius: 0px !important;
+        }
+
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .flex-item {
+            width: 100%;
+        }
+
+        #case-details .each-detail {
+            border: 1px solid green;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: white;
+            margin: 10px 0px;
+        }
+
+        #case-details .header {
+            background-color: #17a2b8;
+            border-radius: 5px;
+        }
+
+        #case-details .header h5 {
+            color: white;
+            padding: 8px;
+            text-transform: uppercase;
+            text-align: center;
+            margin: 0px;
+        }
+
+        #case-details .header-details .card-title {
+            padding: 10px;
+            margin: 0px;
+        }
+
+        .test-step {
+            border: 1px solid green;
+            background-color: white;
+            margin: 10px 0px;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .test-step .step-desc {
+            width: 65%;
+        }
+
+    </style>
+</head>
+<body>
+<div class="master container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+        </ol>
+    </nav>
+
+    <div>
+        <h3><span><strong>Test case name: </strong>test_case_one</span></h3>
+        <h5><span><strong>Number of steps: </strong>3</span></h5>
+        <h5><span><strong>Execution time: </strong>4</span></h5>
+    </div>
+    <div class="flex-container">
+
+        <div class="test-step">
+            <div class="step-desc">
+                <p><strong>Step Description: </strong>Hello world</p>
+                <p><strong>Expected Results: </strong>This is an expected result</p>
+                <!--            <p><strong>Actual Results: </strong></p>-->
+
+                <p><strong>Step Status: </strong><span class="badge badge-success">Passed</span></p>
+
+            </div>
+            <div class="image-class">
+                <img alt="Red dot" src="data:image/png;base64,">
+            </div>
+        </div>
+
+        <div class="test-step">
+            <div class="step-desc">
+                <p><strong>Step Description: </strong>Hello world</p>
+                <p><strong>Expected Results: </strong>This is an expected result</p>
+                <!--            <p><strong>Actual Results: </strong></p>-->
+
+                <p><strong>Step Status: </strong><span class="badge badge-success">Passed</span></p>
+
+            </div>
+            <div class="image-class">
+                <img alt="Red dot" src="data:image/png;base64,">
+            </div>
+        </div>
+
+        <div class="test-step">
+            <div class="step-desc">
+                <p><strong>Step Description: </strong>Hello world</p>
+                <p><strong>Expected Results: </strong>This is an expected result</p>
+                <!--            <p><strong>Actual Results: </strong></p>-->
+
+                <p><strong>Step Status: </strong><span class="badge badge-danger">Failed</span></p>
+
+            </div>
+            <div class="image-class">
+                <img alt="Red dot" src="data:image/png;base64,">
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>
