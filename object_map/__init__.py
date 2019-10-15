@@ -3,7 +3,7 @@ from selenium.webdriver.remote.webdriver import WebElement
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 
-from source.web_src import driver
+from source.web.web_src import driver
 
 
 class Element:
