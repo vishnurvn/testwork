@@ -2,10 +2,11 @@ import os
 
 from jinja2 import Environment, FileSystemLoader
 
-from source.system_config import Config, current_file_path
+from source.system_config import SystemConfig, current_file_path
 
 
 class SuiteReport:
+    # TODO Create suite report
     pass
 
 
@@ -20,8 +21,8 @@ class Report:
         pass
 
     def generate(self, filename):
-        templates = os.path.join(current_file_path, 'source\\reporting\\templates')
-        css = os.path.join(current_file_path, 'source\\reporting\\static\\scss\\master_style.css')
+        templates = os.path.join(current_file_path, 'source\\report\\templates')
+        css = os.path.join(current_file_path, 'source\\report\\static\\scss\\master_style.css')
         file_loader = FileSystemLoader(templates)
         env = Environment(loader=file_loader)
         template = env.get_template('test_case.html')
@@ -29,5 +30,5 @@ class Report:
             css_contents = file.read()
 
         output = template.render(details=self.data, css=css_contents)
-        with open(os.path.join(Config.REPORT_FOLDER, f"{filename}.html"), 'w') as file:
+        with open(os.path.join(SystemConfig.REPORT_FOLDER, f"{filename}.html"), 'w') as file:
             file.write(output)

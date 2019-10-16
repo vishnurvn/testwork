@@ -6,7 +6,13 @@ test_case:
         description: Description
         expected_result: Expected Result
 
-mode: test
-
 web:
-    browser: chrome
+    browser: firefox
+    web_driver_wait_time: 60
+    poll_time: 1
+    implicit_wait_time: 60
+    page_load_timeout: 30
+    chrome_path: drivers/chromedriver.exe
+    firefox_path: drivers/geckodriver.exe
+    ie_path: drivers/IEDriverServer.exe
+    edge_path: drivers/edge.exe

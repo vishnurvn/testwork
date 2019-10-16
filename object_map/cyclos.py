@@ -1,4 +1,4 @@
-from object_map import Element, ObjectMap
+from source.web.objectmap import Element, ObjectMap
 
 
 class HomePage(ObjectMap):

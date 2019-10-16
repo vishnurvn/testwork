@@ -1,4 +1,4 @@
-from source.reporting.report import Report
+from source.report.report import Report
 
 report = Report()
 

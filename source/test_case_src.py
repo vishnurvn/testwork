@@ -5,9 +5,8 @@ from configparser import ConfigParser
 from datetime import datetime
 
 from source.excpetion import TestCaseFailed
-from source.reporting.report import Report
-from source.system_config import Config, user_config
-from source.web.web_src import driver  # TODO remove
+from source.report.report import Report
+from source.system_config import SystemConfig, user_config
 
 
 class TestCase:
@@ -21,7 +20,7 @@ class TestCase:
         """
         Function for getting the list of steps for that test case. Gets the list of methods from self, matches
         it to a regular expression, appends the matches to a list and returns the sorted array. Only methods matching
-        Config.STEP_REGEX pattern are selected.
+        SystemConfig.STEP_REGEX pattern are selected.
 
         Returns
         -------
@@ -31,7 +30,7 @@ class TestCase:
         """
         steps = []
         for name in dir(self):
-            if re.match(Config.STEP_REGEX, name):
+            if re.match(SystemConfig.STEP_REGEX, name):
                 steps.append([name, getattr(self, name)])
         return sorted(steps)
 
@@ -72,7 +71,7 @@ class TestCase:
                 arguments = inspect.signature(step).parameters
                 kwargs = dict([(arg, test_data.get_data(run, arg)) for arg in arguments])
                 step_data = {}
-                for desc, regex in Config.DESCRIPTOR_REGEX.items():
+                for desc, regex in SystemConfig.DESCRIPTOR_REGEX.items():
                     step_data[desc] = re.search(regex, details, re.MULTILINE).group('content').format(**kwargs)
                 # step_exec_time = datetime.now().time().strftime('%H:%M:%S')
                 step(**kwargs)
@@ -93,8 +92,6 @@ class TestCase:
             time_taken = (datetime.now() - exec_start_time).seconds
             report.data['execution_time'] = time_taken
             report.generate(tc_name)
-
-        driver().quit()  # TODO remove
 
 
 class TestData:

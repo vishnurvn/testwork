@@ -4,7 +4,7 @@ import re
 
 import yaml
 
-from source.system_config import Config
+from source.system_config import SystemConfig
 from source.system_config import current_file_path
 
 test_cases_path = os.path.join(current_file_path, 'test_cases')
@@ -21,14 +21,14 @@ args = parser.parse_args()
 def get_test_case_list(type_):
     web_test_cases = os.path.join(test_cases_path, type_)
     test_case_list = []
-    for file in os.listdir(web_test_cases):
-        if re.match(Config.TEST_CASE_REGEX, file):
-            test_case_list.append(file)
+    for file_name in os.listdir(web_test_cases):
+        if re.match(SystemConfig.TEST_CASE_REGEX, file_name):
+            test_case_list.append(file_name)
     return test_case_list
 
 
 def generate_latest_id(test_case_list):
-    latest_id = re.search(Config.TEST_CASE_REGEX, max(test_case_list)).group('id')
+    latest_id = re.search(SystemConfig.TEST_CASE_REGEX, max(test_case_list)).group('id')
     return int(latest_id) + 1
 
 
