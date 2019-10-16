@@ -1,0 +1,12 @@
+test_case:
+    case_descriptors:
+        name: Test Case Name
+        description: Test Case Description
+    step_descriptors:
+        description: Description
+        expected_result: Expected Result
+
+mode: test
+
+web:
+    browser: chrome

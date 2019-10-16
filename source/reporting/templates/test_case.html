@@ -9,9 +9,9 @@
     {% for step in details.steps %}
     <div class="test-step">
         <div class="step-desc">
-            <p><strong>Step Description: </strong>{{ step.step_desc }}</p>
-            <p><strong>Expected Results: </strong>{{ step.expected_results }}</p>
-            <!--            <p><strong>Actual Results: </strong>{{ step.actual_results }}</p>-->
+            {% for desc, value in step.items() %}
+            <p><strong>{{ desc }}:&nbsp;</strong>{{ value }}</p>
+            {% endfor %}
             {% if step.step_status == 1 %}
             <p><strong>Step Status: </strong><span class="badge badge-success">Passed</span></p>
             {% else %}

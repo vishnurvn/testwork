@@ -1,2 +1,2 @@
 class Config:
-    BROWSER = 'firefox'
+    BROWSER = 'chrome'

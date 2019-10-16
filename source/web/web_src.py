@@ -12,7 +12,7 @@ from source.utils import cache
 
 
 @cache
-def driver():
+def driver() -> webdriver.Remote:
     """
     Function for launching the browser according to the config specified in the config.py file.
     Supports drivers of chrome, internet explorer, firefox and edge. Throws InvalidBrowser exception if an invalid

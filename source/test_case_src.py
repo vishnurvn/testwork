@@ -6,9 +6,8 @@ from datetime import datetime
 
 from source.excpetion import TestCaseFailed
 from source.reporting.report import Report
-from source.system_config import Config
-
-Config.STEP_REGEX = r'step_\d+'
+from source.system_config import Config, user_config
+from source.web.web_src import driver  # TODO remove
 
 
 class TestCase:
@@ -54,12 +53,15 @@ class TestCase:
         """
         report = Report()
         parent_dir = os.path.dirname(os.path.dirname(__file__))
-        test_data_path = os.path.join(parent_dir, 'test_data\\web\\{}.data'.format(self.__name__))
+        filename = os.path.basename(inspect.getfile(self.__class__))
+        tc_name = filename.split('.')[0]
+        test_data_path = os.path.join(parent_dir, 'test_data\\web\\{}.data'.format(tc_name))
         test_data = TestData(test_data_path)
 
-        report.data['name'] = self.__name__
+        for case_desc, _ in user_config['test_case']['case_descriptors'].items():
+            report.data[case_desc] = getattr(self, f"__{case_desc}__")
+
         report.data['num_steps'] = len(list(self._steps()))
-        report.data['description'] = self.__description__
         report.data['steps'] = []
 
         exec_start_time = datetime.now()
@@ -69,14 +71,10 @@ class TestCase:
                 details = inspect.getdoc(step)
                 arguments = inspect.signature(step).parameters
                 kwargs = dict([(arg, test_data.get_data(run, arg)) for arg in arguments])
-                step_data = {
-                    'step_desc': re.search(Config.DESCRIPTION_REGEX, details,
-                                           re.MULTILINE).group('content').format(**kwargs),
-                    'expected_results': re.search(Config.EXPECTED_REGEX, details,
-                                                  re.MULTILINE).group('content').format(**kwargs)
-                }
-                print(step_data)
-                step_exec_time = datetime.now().time().strftime('%H:%M:%S')
+                step_data = {}
+                for desc, regex in Config.DESCRIPTOR_REGEX.items():
+                    step_data[desc] = re.search(regex, details, re.MULTILINE).group('content').format(**kwargs)
+                # step_exec_time = datetime.now().time().strftime('%H:%M:%S')
                 step(**kwargs)
                 step_data['step_status'] = 1
                 report.data['steps'].append(step_data)
@@ -94,7 +92,9 @@ class TestCase:
             report.data['steps'].append(step_data)
             time_taken = (datetime.now() - exec_start_time).seconds
             report.data['execution_time'] = time_taken
-            report.generate(self.__name__)
+            report.generate(tc_name)
+
+        driver().quit()  # TODO remove
 
 
 class TestData:

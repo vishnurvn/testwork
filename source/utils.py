@@ -5,6 +5,8 @@ Module for utilities.
 
 from functools import wraps
 
+import yaml
+
 
 def cache(function):
     """
@@ -31,3 +33,10 @@ def cache(function):
         return cache_dict[function.__name__]
 
     return wrapper
+
+
+@cache
+def yaml_config(yaml_file):
+    with open(yaml_file) as file:
+        config = yaml.safe_load(file)
+    return config

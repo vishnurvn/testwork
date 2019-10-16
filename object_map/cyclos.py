@@ -21,3 +21,9 @@ class LoginPage(ObjectMap):
 class HomePageLoggedIn(ObjectMap):
     ACCOUNT_INTO_BUTTON = Element("//div[text()='Account info']", "XPATH")
     BALANCE_TEXT = Element("//span[contains(text(), 'Balance:')]", "XPATH")
+    PERSONAL_TAB = Element("//span[text()='Personal']", "XPATH")
+    LOGOUT_LINK = Element("//span[text()='Logout']", "XPATH")
+
+
+class PersonalTab(ObjectMap):
+    EMAIL = Element("//div[text()='E-Mail']/../following-sibling::td/a", "XPATH")
