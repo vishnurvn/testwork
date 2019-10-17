@@ -1,4 +1,4 @@
 .idea
 **/__pycache__/**
-reports/**
+testwork/reports/test_case_one.html
 *.log
