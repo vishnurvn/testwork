@@ -1,7 +1,6 @@
 from object_map import cyclos
 from testwork import TestCase
-from testwork.source import driver
-from testwork.source.web.run import run_test_case
+from testwork.web import driver
 
 
 class TestCase1(TestCase):
@@ -51,6 +50,3 @@ class TestCase1(TestCase):
     #     cyclos.HomePageLoggedIn().LOGOUT_LINK.get_element().click()
     #     cyclos.HomePage().SIGN_IN_LINK.get_element()
 
-
-if __name__ == '__main__':
-    run_test_case(__file__, 'run_1')

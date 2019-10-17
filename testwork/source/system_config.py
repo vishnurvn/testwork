@@ -3,8 +3,7 @@ import os
 from source.utils import yaml_config
 
 current_file_path = os.path.dirname(os.path.dirname(__file__))
-print(os.getcwd())
-user_config = yaml_config(os.path.join(current_file_path, 'config.yaml'))
+user_config = yaml_config(os.path.join(os.getcwd(), 'config.yaml'))
 
 
 class SystemConfig:

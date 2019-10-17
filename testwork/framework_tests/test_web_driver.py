@@ -2,7 +2,7 @@ import unittest
 
 from selenium.webdriver import Remote
 
-from source.web.web_src import driver
+from web import driver
 
 
 class TestWebDriver(unittest.TestCase):

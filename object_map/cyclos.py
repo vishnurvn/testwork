@@ -1,4 +1,4 @@
-from testwork import Element, ObjectMap
+from testwork.web import Element, ObjectMap
 
 
 class HomePage(ObjectMap):

@@ -8,4 +8,4 @@ setup(name='testwork',
       license='MIT',
       zip_safe=False,
       packages=find_packages(exclude=('object_map', 'test_cases*', 'testwork.framework_tests')),
-      install_requires=['Flask==1.1.1', 'selenium==3.141.0'])
+      install_requires=['Flask==1.1.1', 'selenium==3.141.0', 'PyYAML'])

@@ -8,7 +8,7 @@ from selenium import webdriver
 
 from source.system_config import user_config, current_file_path
 from source.utils import cache
-from source.web.exception import InvalidBrowser
+from web.exception import InvalidBrowser
 
 
 @cache

@@ -4,8 +4,8 @@ import re
 
 import yaml
 
-from testwork.source.system_config import SystemConfig
-from testwork.source.system_config import current_file_path
+from source.system_config import current_file_path
+from source.test_case_src import get_test_case_list, get_test_class
 
 exec_dir = os.getcwd()
 test_cases_path = os.path.join(current_file_path, 'test_cases')
@@ -18,22 +18,14 @@ parser.add_argument('-a', '--admin', help='Login to server as admin')
 
 args = parser.parse_args()
 
-
-def get_test_case_list(type_):
-    web_test_cases = os.path.join(test_cases_path, type_)
-    test_case_list = []
-    for file_name in os.listdir(web_test_cases):
-        if re.match(SystemConfig.TEST_CASE_REGEX, file_name):
-            test_case_list.append(file_name)
-    return test_case_list
-
-
-def generate_latest_id(test_case_list):
-    latest_id = re.search(SystemConfig.TEST_CASE_REGEX, max(test_case_list)).group('id')
-    return int(latest_id) + 1
-
-
 if args.command == 'create_test_case':
+    from source.system_config import SystemConfig
+
+
+    def generate_latest_id(test_case_list):
+        latest_id = re.search(SystemConfig.TEST_CASE_REGEX, max(test_case_list)).group('id')
+        return int(latest_id) + 1
+
     source_folder = os.path.join(current_file_path, 'source')
     test_case_template = os.path.join(source_folder, 'test_case_template.txt')
     test_data_template = os.path.join(source_folder, 'test_data_template.txt')
@@ -68,9 +60,8 @@ elif args.command == 'server':
 
 elif args.command == 'start':
     test_case_types = {
-        '1': 'plain',
-        '2': 'web',
-        '3': 'api'
+        '1': 'web',
+        '2': 'api'
     }
     os.system('cls')
     print('> Welcome to testwork setup')
@@ -81,7 +72,6 @@ elif args.command == 'start':
     final_type_list = [test_case_types.get(tc_type.strip()) for tc_type in tc_types.split(',') if
                        test_case_types.get(tc_type.strip()) is not None]
     folders = {
-        'plain': ['test_cases', 'test_data', 'reports', 'test_cases\\plain', 'test_data\\plain'],
         'web': ['test_cases', 'test_data', 'reports', 'drivers', 'object_map', 'test_cases\\web',
                 'test_data\\web'],
         'api': ['test_cases', 'test_data', 'reports', 'test_cases\\api',
@@ -92,3 +82,12 @@ elif args.command == 'start':
             f_path = os.path.join(exec_dir, f)
             if not os.path.exists(f_path):
                 os.makedirs(f_path)
+
+elif args.command == 'execute':
+    pass
+
+elif args.command == 'list':
+    if args.type[0] == 'web':
+        test_cases = get_test_case_list('web')
+        for tc_class in map(lambda x: get_test_class(x, 'web'), test_cases):
+            print(tc_class)

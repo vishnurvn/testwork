@@ -4,7 +4,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 
 from source.system_config import user_config
-from source.web.web_src import driver
+from web import driver
 
 
 class Element:
