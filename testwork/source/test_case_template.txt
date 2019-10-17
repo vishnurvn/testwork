@@ -1,0 +1,21 @@
+from testwork import TestCase, run_test_case # Do not delete this import.
+# Import object maps and other resources here
+
+
+class TestCase{idx}(TestCase):
+{descriptors}
+
+    # The test case should follow the exact syntax for name and description of the test case
+
+    def step_1(self, url):
+        """
+{step_descriptors}
+        """
+        # Step operations goes here
+
+    # Additional test case steps goes here. The step name should be of the format step_n, n = 1, 2, 3...
+    # The steps will always be executed sequentially
+
+
+if __name__ == '__main__':
+    run_test_case(__file__, 'run_1')

@@ -1,0 +1,13 @@
+from testwork import Element, ObjectMap  # This import should not be deleted
+
+
+class PageClass(ObjectMap):
+    ELEMENT_NAME = Element("selector", "selector_type")
+    # The classes are to be created per page. One class per page. All classes must inherit from ObjectMap parent class.
+    # element name should always be in capital letters, else it will NOT be identified. Use meaningful names for the
+    # elements. The syntax should be exact when defining the element xpath.
+
+    def sample_operation(self):
+        # Operations on multiple elements on the same page can be done this way.Replace the some_operation with the
+        # corresponding operation. Operations are defined in the user guide.
+        self.ELEMENT_NAME.some_operation()

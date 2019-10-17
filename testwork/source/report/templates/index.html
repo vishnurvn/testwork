@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <div class="full-width btn-group" role="group">
+        <a class="btn btn-info" href="#" role="button">Summary</a>
+        <a class="btn btn-success" href="#" role="button">Passed <span
+                class="badge badge-light">{{ status.passed }}</span></a>
+        <a class="btn btn-danger" href="#" role="button">Failed <span
+                class="badge badge-light">{{ status.failed }}</span></a>
+        <a class="btn btn-warning" href="#" role="button">Skipped <span
+                class="badge badge-light">{{ status.skipped }}</span></a>
+    </div>
+    <div>
+        <h1 id="report-header">Execution Report</h1>
+        <div class="timestamp">
+            <h4 class="date">{{ date }}</h4>
+            <h4 class="time">{{ time }}</h4>
+        </div>
+    </div>
+</div>
+<div id="case-details">
+    <div class="each-detail">
+        <div class="header">
+            <h5>Test Suite Description</h5>
+        </div>
+        <div class="header-details">
+            {% for test_case in test_case_data %}
+            <div>
+                <h5 class="card-title">
+                    <span>
+                        <i class="fas fa-file-code"></i>&nbsp;
+                        <a href="#"><strong>{{ test_case.name }}</strong></a>
+                    </span>
+                </h5>
+                <div aria-labelledby="collapse{{ test_case.id }}" class="collapse show" id="{{ test_case.id }}">
+                    <div class="card card-body">
+                        <div><span><strong>Description: </strong></span>{{ test_case.description }}</div>
+                        <div>
+                            <span><strong>Run time: </strong>{{ test_case.run_time }}</span>
+                            <span>
+                                    <strong>Status: </strong>
+                                    {% if test_case.status == 1 %}
+                                        <span class="badge badge-success">Passed</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Failed</span>
+                                    {% endif %}
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

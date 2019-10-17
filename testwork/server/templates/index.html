@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="small-container">
+    <button class="btn btn-primary" type="button">Execute</button>
+    <div>
+        {% for key, value in data.items() %}
+        <div>
+            <h2 class="type-title"><strong>{{ key }}</strong></h2>
+        </div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <td></td>
+                <td><strong>Test Case Name</strong></td>
+                <td><strong>Description</strong></td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in value %}
+            <tr>
+                <td>
+                    <input aria-label="Check for execution" type="checkbox">
+                </td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.description }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

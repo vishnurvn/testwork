@@ -1,6 +1,7 @@
 from object_map import cyclos
-from source import TestCase, driver
-from source.web.run import run_test_case
+from testwork import TestCase
+from testwork.source import driver
+from testwork.source.web.run import run_test_case
 
 
 class TestCase1(TestCase):

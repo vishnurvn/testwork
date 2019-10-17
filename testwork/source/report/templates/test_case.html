@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <h3><span><strong>Test case name: </strong>{{ details.name }}</span></h3>
+    <h5><span><strong>Number of steps: </strong>{{ details.num_steps }}</span></h5>
+    <h5><span><strong>Execution time: </strong>{{ details.execution_time }} seconds</span></h5>
+</div>
+<div class="flex-container">
+    {% for step in details.steps %}
+    <div class="test-step">
+        <div class="step-desc">
+            {% for desc, value in step.items() %}
+            <p><strong>{{ desc }}:&nbsp;</strong>{{ value }}</p>
+            {% endfor %}
+            {% if step.step_status == 1 %}
+            <p><strong>Step Status: </strong><span class="badge badge-success">Passed</span></p>
+            {% else %}
+            <p><strong>Step Status: </strong><span class="badge badge-danger">Failed</span></p>
+            {% endif %}
+        </div>
+        <div class="image-class">
+            <img alt="Red dot" src="data:image/png;base64,{{ image }}">
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

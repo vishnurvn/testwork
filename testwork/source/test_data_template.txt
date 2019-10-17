@@ -1,0 +1,5 @@
+# All the test case goes here. Runs should be defined by the format [run_n] where n = 1, 2, 3... As given in the
+# example below. Variables should be of the format `variable = value` without the ` sign. The variable should match
+# the arguments of the step exactly. The runs will be executed sequentially.
+
+[run_1]
