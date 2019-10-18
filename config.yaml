@@ -1,3 +1,5 @@
+types: [web, api]
+
 test_case:
     case_descriptors:
         name: Test Case Name
