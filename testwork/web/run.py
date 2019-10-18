@@ -2,9 +2,9 @@ import importlib
 import os
 import re
 
-from source import driver
 from source.system_config import SystemConfig
 from source.test_case_src import TestCaseFailed
+from web.web_src import driver
 
 
 def run_test_suite():

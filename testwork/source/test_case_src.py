@@ -146,15 +146,28 @@ class TestData:
 
 
 def get_test_case_list(type_):
-    web_test_cases = os.path.join(os.getcwd(), f"test_cases\\{type_}")
+    # TODO write docs and do testing
+    files = os.path.join(os.getcwd(), f"test_cases\\{type_}")
     test_case_list = []
-    for file_name in os.listdir(web_test_cases):
+    for file_name in os.listdir(files):
         if re.match(SystemConfig.TEST_CASE_REGEX, file_name):
             test_case_list.append(file_name)
     return test_case_list
 
 
+def get_latest_case_id(type_):
+    # TODO write docs and do testing
+    files = os.listdir(os.path.join(os.getcwd(), f"test_cases\\{type_}"))
+    test_cases = [file for file in files if re.match(SystemConfig.TEST_CLASS_REGEX, file) is not None]
+    try:
+        latest_id = re.search(SystemConfig.TEST_CASE_REGEX, max(test_cases)).group('id')
+    except ValueError:
+        latest_id = '1'
+    return int(latest_id)
+
+
 def get_test_class(test_case_py_file, type_):
+    # TODO write docs and do testing
     module_name = test_case_py_file.split('.')[0]
     module = importlib.import_module(f".{module_name}", f"test_cases.{type_}")
     test_case_class = [cls for cls in dir(module) if

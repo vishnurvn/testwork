@@ -1,4 +1,5 @@
 import argparse
+import copy
 import os
 
 import yaml
@@ -7,6 +8,7 @@ import source
 
 parser = argparse.ArgumentParser(description='Framework control')
 parser.add_argument('command', help='Basic framework commands')
+parser.add_argument('-t', '--type', help='Test case type')
 
 args = parser.parse_args()
 spaces = " " * 4
@@ -47,7 +49,6 @@ if args.command == 'start':
     }
 
     os.system('cls')
-    yaml_settings_dict = {}
     print('> Welcome to testwork setup. Select the type of test cases you will be creating')
     for idx, tc in enumerate(test_case_types.values(), start=1):
         print(f'{spaces}[{idx}] {tc}')
@@ -92,7 +93,9 @@ if args.command == 'start':
         for f in files:
             print(f"{ind}{sub_intent}{f}")
 
+    yaml_settings_dict = {'types': copy.deepcopy(final_type_list)}
     final_type_list.extend(['test_case'])
+
     for tc_type in final_type_list:
         if tc_type is 'test_case':
             print("> **********Test case settings**********")
@@ -118,17 +121,39 @@ if args.command == 'start':
         yaml.dump(yaml_settings_dict, config_file, default_flow_style=False)
         print(f"> Writing config file to the path {yaml_file_path}")
 
-
 elif args.command == 'create_test_case':
     try:
         from source.system_config import SystemConfig
         from source.test_case_src import user_config
+        from source.test_case_src import get_latest_case_id
 
-        print('> You have not created a project. Run command start to create a project and then run this command')
-    except FileNotFoundError:
         exec_dir = os.getcwd()
-        print('> config.yaml present')
         source_path = os.path.dirname(source.__file__)
         test_case_temp = os.path.join(source_path, 'templates\\test_case_template.txt')
         test_data_temp = os.path.join(source_path, 'templates\\test_data_template.txt')
-        if args.type[0] in user_config['types']:
+
+        if args.type in user_config['types']:
+            id_ = get_latest_case_id(args.type)
+            with open(test_case_temp, 'r') as temp_file:
+                content = temp_file.read()
+                tc_config = user_config['test_case']
+                tc_descriptors = '\n'.join(
+                    [f'{spaces}__{desc}__ = "{desc} descriptor"' for desc in tc_config['case_descriptors']]
+                )
+                step_descriptors = '\n'.join(
+                    [f"{spaces * 2}:{desc}: {desc} descriptor" for desc in tc_config['step_descriptors']])
+
+                with open(os.path.join(exec_dir, f'test_cases\\{args.type}\\test_case_{id_}.py'), 'w') as tc_file:
+                    tc_file.write(content.format(idx=id_, descriptors=tc_descriptors,
+                                                 step_descriptors=step_descriptors))
+
+            with open(test_data_temp, 'r') as temp_file:
+                content = temp_file.read()
+                with open(os.path.join(exec_dir, f'test_data\\{args.type}\\test_data_{id_}.data'), 'w') as data_file:
+                    data_file.write(content)
+
+    except FileNotFoundError as e:
+        print('> You have not created a project. Run command `start` to create a project and then run this command')
+
+elif args.command == 'execute':
+    pass
