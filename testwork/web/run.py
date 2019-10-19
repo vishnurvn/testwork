@@ -1,5 +1,4 @@
 import importlib
-import os
 import re
 
 from source.system_config import SystemConfig
@@ -11,10 +10,9 @@ def run_test_suite():
     pass
 
 
-def run_test_case(test_case: str, runs: [list, str]) -> None:
+def run_web_test_case(test_case: str, runs: [list, str]) -> None:
     try:
-        module_name = os.path.basename(test_case).split('.')[0]
-        module = importlib.import_module('.{}'.format(module_name), 'test_cases.web')
+        module = importlib.import_module('.{}'.format(test_case), 'test_cases.web')
         test_case_class = [cls for cls in dir(module) if re.match(SystemConfig.TEST_CLASS_REGEX, cls) is not None][0]
         if isinstance(runs, str):
             getattr(module, test_case_class)().execute(runs)
@@ -24,7 +22,3 @@ def run_test_case(test_case: str, runs: [list, str]) -> None:
         driver().quit()
     except TestCaseFailed:
         driver().quit()
-
-
-if __name__ == '__main__':
-    run_test_case('test_case_1.py', 'run_1')

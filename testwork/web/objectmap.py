@@ -4,7 +4,6 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 
 from source.system_config import user_config
-from web import driver
 
 
 class Element:
@@ -54,8 +53,8 @@ class GetElement:
 
 
 class ObjectMap(object):
-    def __init__(self):
-        self.driver = driver()
+    def __init__(self, driver_obj):
+        self.driver = driver_obj
 
     def __getattribute__(self, item: str) -> GetElement:
         if not item.isupper():

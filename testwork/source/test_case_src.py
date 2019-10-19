@@ -89,10 +89,12 @@ class TestCase:
             step_data['step_status'] = 0
             raise TestCaseFailed(f"Failed at step: {name}, Exception: {type(e)}, {e}")
         finally:
-            report.data['steps'].append(step_data)
             time_taken = (datetime.now() - exec_start_time).seconds
             report.data['execution_time'] = time_taken
             report.generate(tc_name)
+
+    def fail(self, message):
+        raise TestCaseFailed(message)
 
 
 class TestData:

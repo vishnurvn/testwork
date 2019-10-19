@@ -6,7 +6,7 @@ import os
 
 from selenium import webdriver
 
-from source.system_config import user_config, current_file_path
+from source.system_config import user_config
 from source.utils import cache
 from web.exception import InvalidBrowser
 
@@ -26,7 +26,7 @@ def driver() -> webdriver.Remote:
     """
 
     def get_path(path):
-        return os.path.join(current_file_path, path)
+        return os.path.join(os.getcwd(), path)
 
     if user_config["web"]["browser"] == 'chrome':
         driver_object = webdriver.Chrome(get_path(user_config['web']['chrome_path']))
@@ -43,3 +43,29 @@ def driver() -> webdriver.Remote:
     driver_object.set_page_load_timeout(user_config["web"]["page_load_timeout"])
     driver_object.implicitly_wait(user_config["web"]["implicit_wait_time"])
     return driver_object
+
+
+class Driver:
+    def __init__(self):
+        self.driver_object = None
+
+    def launch_driver(self) -> webdriver.Remote:
+
+        def get_path(path):
+            return os.path.join(os.getcwd(), path)
+
+        if user_config["web"]["browser"] == 'chrome':
+            self.driver_object = webdriver.Chrome(get_path(user_config['web']['chrome_path']))
+        elif user_config["web"]["browser"] == 'ie':
+            self.driver_object = webdriver.Ie(get_path(user_config['web']['ie_path']))
+        elif user_config["web"]["browser"] == 'firefox':
+            self.driver_object = webdriver.Firefox(executable_path=get_path(user_config['web']['firefox_path']))
+        elif user_config["web"]["browser"] == 'edge':
+            self.driver_object = webdriver.Edge(get_path(user_config['web']['edge_path']))
+        else:
+            raise InvalidBrowser(f'{user_config["web"]["browser"]} is not a valid browser. Please provide a valid '
+                                 f'browser name')
+        return self.driver_object
+
+    def quit_driver(self):
+        self.driver_object.quit_driver()

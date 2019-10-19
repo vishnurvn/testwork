@@ -17,4 +17,4 @@ class SystemConfig:
     }
 
     TEST_CASE_FOLDER = os.path.join(current_file_path, 'test_cases')
-    REPORT_FOLDER = os.path.join(current_file_path, 'reports')
+    REPORT_FOLDER = os.path.join(os.getcwd(), 'reports')

@@ -1,6 +1,7 @@
 import argparse
 import copy
 import os
+import sys
 
 import yaml
 
@@ -8,10 +9,15 @@ import source
 
 parser = argparse.ArgumentParser(description='Framework control')
 parser.add_argument('command', help='Basic framework commands')
-parser.add_argument('-t', '--type', help='Test case type')
+parser.add_argument('-t', '--type', help='Test case type', nargs=1)
+parser.add_argument('-a', '--all', help='All the test cases')
+parser.add_argument('-n', '--name', help='File name of the test cases.')
+parser.add_argument('-i', '--id', help='ID of the test case')
+parser.add_argument('-r', '--run', help='Run ID of the test case. `run_1, run_2`', nargs='+')
 
 args = parser.parse_args()
 spaces = " " * 4
+sys.path.append(os.getcwd())
 
 if args.command == 'start':
     test_case_types = {
@@ -132,8 +138,8 @@ elif args.command == 'create_test_case':
         test_case_temp = os.path.join(source_path, 'templates\\test_case_template.txt')
         test_data_temp = os.path.join(source_path, 'templates\\test_data_template.txt')
 
-        if args.type in user_config['types']:
-            id_ = get_latest_case_id(args.type)
+        if args.type[0] in user_config['types']:
+            id_ = get_latest_case_id(args.type[0])
             with open(test_case_temp, 'r') as temp_file:
                 content = temp_file.read()
                 tc_config = user_config['test_case']
@@ -143,17 +149,26 @@ elif args.command == 'create_test_case':
                 step_descriptors = '\n'.join(
                     [f"{spaces * 2}:{desc}: {desc} descriptor" for desc in tc_config['step_descriptors']])
 
-                with open(os.path.join(exec_dir, f'test_cases\\{args.type}\\test_case_{id_}.py'), 'w') as tc_file:
+                with open(os.path.join(exec_dir, f'test_cases\\{args.type[0]}\\test_case_{id_}.py'), 'w') as tc_file:
                     tc_file.write(content.format(idx=id_, descriptors=tc_descriptors,
                                                  step_descriptors=step_descriptors))
 
             with open(test_data_temp, 'r') as temp_file:
                 content = temp_file.read()
-                with open(os.path.join(exec_dir, f'test_data\\{args.type}\\test_data_{id_}.data'), 'w') as data_file:
+                with open(os.path.join(exec_dir, f'test_data\\{args.type[0]}\\test_data_{id_}.data'), 'w') as data_file:
                     data_file.write(content)
 
     except FileNotFoundError as e:
         print('> You have not created a project. Run command `start` to create a project and then run this command')
 
 elif args.command == 'execute':
-    pass
+    from source.run import run_test_cases
+
+    if args.type[0] == 'web':
+        if args.name:
+            run_test_cases(args.type[0], args.name, args.run)
+        elif args.id:
+            try:
+                run_test_cases(args.type[0], f"test_case_{int(args.id)}", args.run)
+            except ValueError:
+                print(f"> Invalid ID {args.id}")
