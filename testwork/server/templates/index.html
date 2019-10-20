@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="small-container">
-    <button class="btn btn-primary" type="button">Execute</button>
-    <div>
-        {% for key, value in data.items() %}
+    {% for key, values in data.items() %}
+        <div class="section">
         <div>
             <h2 class="type-title"><strong>{{ key }}</strong></h2>
         </div>
@@ -11,23 +10,25 @@
             <thead>
             <tr>
                 <td></td>
-                <td><strong>Test Case Name</strong></td>
-                <td><strong>Description</strong></td>
+                {% for value in header.values() %}
+                    <td><strong>{{ value }}</strong></td>
+                {% endfor %}
             </tr>
             </thead>
             <tbody>
-            {% for item in value %}
+            {% for item in values %}
             <tr>
                 <td>
                     <input aria-label="Check for execution" type="checkbox">
                 </td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.description }}</td>
+                {% for key in header.keys() %}
+                    <td>{{ item[key] }}</td>
+                {% endfor %}
             </tr>
             {% endfor %}
             </tbody>
         </table>
-        {% endfor %}
     </div>
+    {% endfor %}
 </div>
 {% endblock %}

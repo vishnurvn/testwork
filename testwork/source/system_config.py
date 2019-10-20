@@ -16,5 +16,5 @@ class SystemConfig:
         descriptor, value in user_config['test_case']['step_descriptors'].items()
     }
 
-    TEST_CASE_FOLDER = os.path.join(current_file_path, 'test_cases')
+    TEST_CASE_FOLDER = os.path.join(os.getcwd(), 'test_cases')
     REPORT_FOLDER = os.path.join(os.getcwd(), 'reports')

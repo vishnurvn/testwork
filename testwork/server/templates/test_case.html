@@ -1,3 +1,16 @@
+{% extends 'base.html' %}
 {% block content %}
-
+    <div class="small-container">
+        {% for step_no, step in step_data.items() %}
+            <div class="section">
+                <p>{{ step_no }}</p>
+                {% for key, value in step.items() %}
+                    <div>
+                        <span>{{ key }}</span>
+                        <span>{{ value }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
