@@ -14,9 +14,41 @@ body {
 }
 
 .section {
+    width: 100%;
     border: 0 solid black;
     border-radius: 10px;
     padding: 12px;
     background-color: white;
     margin-bottom: 10px;
+    -webkit-box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.75);
+}
+
+.descriptor, .descriptor-val {
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.descriptor {
+    text-transform: uppercase;
+}
+
+.step_number, .step_desc {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-item-steps {
+    width: 59%;
+}
+
+.flex-item-data {
+    width: 40%;
 }

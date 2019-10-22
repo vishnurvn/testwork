@@ -12,9 +12,8 @@ from source.system_config import SystemConfig, user_config
 
 class TestCase:
     """
-    Testcase superclass for managing test cases. All the test cases inherit from this superclass.
-    Has methods _steps for getting the list of steps in that particular test case and execute
-    for executing that test case.
+    Class for managing test cases. Has methods _steps for getting the list of steps in that particular test case and
+    execute for executing that test case.
     """
 
     def __init__(self, test_case, type_):
@@ -131,6 +130,25 @@ class TestData:
 
         """
         return self.config.sections()
+
+    def get_all_data(self, run_id: int) -> dict:
+        """
+        Function for returning all the data variables of a test case for a particular run_id
+
+        Parameters
+        ----------
+        run_id: int
+            The run_id for the data is to be extracted.
+
+        Returns
+        -------
+        step_data: dict
+            A dictionary of all the key value pairs of the data for a particular run.
+
+        """
+        return {
+            key: value for key, value in self.config[run_id].items()
+        }
 
     def get_data(self, run: str, argument: str) -> str:
         """

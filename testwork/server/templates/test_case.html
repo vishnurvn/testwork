@@ -1,16 +1,48 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="small-container">
-        {% for step_no, step in step_data.items() %}
-            <div class="section">
-                <p>{{ step_no }}</p>
-                {% for key, value in step.items() %}
-                    <div>
-                        <span>{{ key }}</span>
-                        <span>{{ value }}</span>
+        <div class="section">
+            {% for key, value in details.items() %}
+                <span class="descriptor">{{ key }} : </span>
+                <span class="descriptor-val">{{ value }}</span>
+            {% endfor %}
+        </div>
+        <div class="flex-container">
+            <div class="flex-item-steps">
+                <span class="descriptor">Test Step Details</span>
+                {% for step_no, step in step_data.items() %}
+                    <div class="section">
+                        <p class="step_number">{{ step_no }}</p>
+                        {% for key, value in step.items() %}
+                            <div>
+                                <span class="step_desc">{{ key }} : </span>
+                                <span>{{ value }}</span>
+                            </div>
+                        {% endfor %}
                     </div>
                 {% endfor %}
             </div>
-        {% endfor %}
+            <div class="flex-item-data">
+                <span class="descriptor">Test Data</span>
+                <div>
+                    {% if not test_data|length > 0 %}
+                        <h3>No Data Available</h3>
+                    {% else %}
+                        {% for run, run_data in test_data.items() %}
+                            <div class="section">
+                                <span class="descriptor">{{ run }}</span>
+                                <hr>
+                                {% for key, value in run_data.items() %}
+                                    <div>
+                                        <span>{{ key }} : </span>
+                                        <span>{{ value }}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

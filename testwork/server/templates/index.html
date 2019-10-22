@@ -3,32 +3,32 @@
 <div class="small-container">
     {% for key, values in data.items() %}
         <div class="section">
-        <div>
-            <h2 class="type-title"><strong>{{ key }}</strong></h2>
+            <div>
+                <h2 class="type-title"><strong>{{ key }}</strong></h2>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <td style="width: 15px;"></td>
+                    {% for value in header.values() %}
+                        <td><strong>{{ value }}</strong></td>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in values %}
+                    <tr>
+                        <td>
+                            <input aria-label="Check for execution" type="checkbox">
+                        </td>
+                        {% for key in header.keys() %}
+                            <td><a href="{{ url_for('test_case', tc_type='web', tc_id='1') }}">{{ item[key] }}</a></td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <td></td>
-                {% for value in header.values() %}
-                    <td><strong>{{ value }}</strong></td>
-                {% endfor %}
-            </tr>
-            </thead>
-            <tbody>
-            {% for item in values %}
-            <tr>
-                <td>
-                    <input aria-label="Check for execution" type="checkbox">
-                </td>
-                {% for key in header.keys() %}
-                    <td>{{ item[key] }}</td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
     {% endfor %}
 </div>
 {% endblock %}

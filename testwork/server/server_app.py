@@ -7,6 +7,7 @@ import sys
 from flask import Flask, render_template
 
 from source.system_config import SystemConfig, user_config
+from source.test_case_src import TestData
 
 app = Flask(__name__)
 sys.path.append(os.getcwd())
@@ -36,19 +37,27 @@ def index():
 
 @app.route('/test_case/<string:tc_type>/<string:tc_id>')
 def test_case(tc_type, tc_id):
-    filename = f"test_case_{tc_id}"
-    module = importlib.import_module(f".{filename}", f"test_cases.{tc_type}")
-    step_data = {}
-    for item in dir(module):
-        if re.match(SystemConfig.STEP_REGEX, item):
-            func = getattr(module, item)
-            step_data[func.__name__] = {}
+    data = TestData(os.path.join(os.getcwd(), f"test_data\\{tc_type}\\test_data_{tc_id}.data"))
+    module = importlib.import_module(f".test_case_{tc_id}", f"test_cases.{tc_type}")
+
+    details, step_data, test_data = {}, {}, {}
+
+    for case_desc in user_config['test_case']['case_descriptors']:
+        details[case_desc] = getattr(module, f"__{case_desc}__")
+
+    for run in data.runs():
+        test_data[run.replace('_', ' ')] = data.get_all_data(run)
+
+    for attribute in dir(module):
+        if re.match(SystemConfig.STEP_REGEX, attribute):
+            func = getattr(module, attribute)
+            step_name = func.__name__.replace('_', ' ')
+            step_data[step_name] = {}
             doc_string = inspect.getdoc(func)
             for key, value in user_config['test_case']['step_descriptors'].items():
                 content = re.search(SystemConfig.DESCRIPTOR_REGEX[value], doc_string).group('content')
-                step_data[func.__name__][value] = content
-    print(step_data)
-    return render_template('test_case.html', step_data=step_data)
+                step_data[step_name][value] = content
+    return render_template('test_case.html', step_data=step_data, details=details, test_data=test_data)
 
 
 if __name__ == '__main__':
